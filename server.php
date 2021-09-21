@@ -8,7 +8,7 @@
 $username = "";
 $email   = "";
 $Name = "";
-$Category = "";
+$category_id = "";
 $Platform = "";
 
 $errors = array();
@@ -81,19 +81,23 @@ if (isset($_POST['login_user'])) {
 
 if (isset($_POST['add'])) {
   $Name = mysqli_real_escape_string($db, $_POST['Name']);
-  $Category = mysqli_real_escape_string($db, $_POST['Category']);
   $Platform = mysqli_real_escape_string($db, $_POST['Platform']);
   $id = $_SESSION["id"];
+  $category_id = mysqli_real_escape_string($db, $_POST['category']);
 
 
-  $query1 = "INSERT INTO games (Name, Category, Platform, user_id)
-        VALUES('$Name', '$Category', '$Platform', '$id')";
+
+  $query1 = "INSERT INTO games (Name, Platform, user_id, category_id)
+        VALUES('$Name', '$Platform', '$id', '$category_id')";
   mysqli_query($db, $query1);
   header('location: index.php');
 }
 
-  $user_id= mysqli_real_escape_string($db,  $_POST['id']);
-  $result3 = mysqli_query($db,"SELECT * FROM games WHERE id =$user_id ");
+if(array_key_exists("id", $_SESSION)) {
+  $user_id= mysqli_real_escape_string($db,  $_SESSION['id']);
+  $result3 = mysqli_query($db,"SELECT * FROM games WHERE user_id =$user_id ");
+
+}
 
   if (isset($_POST['delete'])) {
 
@@ -106,5 +110,7 @@ if (isset($_POST['add'])) {
     header('location: index.php');
   }
 
+
+    $records = mysqli_query($db, "SELECT * From category");
 
 ?>
