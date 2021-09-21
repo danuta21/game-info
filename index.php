@@ -1,5 +1,7 @@
 <?php
+
   session_start();
+  include ('server.php');
 
   if (!isset($_SESSION['username'])) {
   	$_SESSION['msg'] = "You must log in first";
@@ -9,6 +11,15 @@
   	session_destroy();
   	unset($_SESSION['username']);
   	header("location: login.php");
+  }
+
+  function retrieveCategoryName($category_id, $db) {
+    $user_check_query = "SELECT Name FROM category WHERE id=$category_id ";
+    $result = mysqli_query($db, $user_check_query);
+
+    $data = mysqli_fetch_assoc($result);
+
+    return $data["Name"];
   }
 ?>
 
@@ -52,8 +63,15 @@
           <input type="text" name="Name">
         </div>
         <div class="input-group">
-          <label>Category:</label>
-          <input type="text" name="Category">
+          <label for="category">Category:</label>
+          <select name="category">
+
+        <?php include('server.php');
+        while($data = mysqli_fetch_array($records))
+        {
+            echo "<option value='". $data['id'] ."'>" .$data['Name'] ."</option>";
+        }?>
+     </select>
         </div>
         <div class="input-group">
           <label>Platform:</label>
@@ -74,14 +92,16 @@
 
               </tr>
             <?php
+
             while($row = mysqli_fetch_array($result3))
             {
 
             ?>
+
                <tr>
 
                   <td><a href="description.php?id=<?= $row["id"] ?>"><?php echo $row['Name'];?></td>
-                  <td><?php echo $row['Category'];?></td>
+                  <td><a href="category.php?category_id=<?=$row["category_id"] ?>"><?php echo retrieveCategoryName($row['category_id'], $db);?></td>
                   <td><?php echo $row['Platform'];?></td>
                   <td><a href="update-process.php?id=<?php echo $row["id"]; ?>">&#9999;</a></td>
                   <td>

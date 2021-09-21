@@ -7,7 +7,7 @@
 </head>
 <body>
   <div class="header">
-  	<h2>Login Mazen modificare</h2>
+  	<h2>Login</h2>
   </div>
 
   <form method="post" action="login.php" class="login">

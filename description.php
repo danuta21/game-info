@@ -24,7 +24,7 @@ $row= mysqli_fetch_array($result);
 <input type="text" name="Name" class="n" value="<?php echo $row['Name']; ?>" readonly>
 <br>
 <label>Category</label>
-<input type="text" name="Category" class="c" value="<?php echo $row['Category']; ?>"readonly>
+<input type="text" name="Category" class="c" value="<?php echo $row['category_id']; ?>" readonly>
 <br>
 <label>Platform</label>
 <input type="text" name="Platform" class="p" value="<?php echo $row['Platform'];  ?> " readonly>
